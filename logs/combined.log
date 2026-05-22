@@ -1,0 +1,2 @@
+{"level":"error","message":"400 - Invalid input data: Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character - /api/v1/auth/register - POST - ::1","timestamp":"2026-05-22 13:53:06"}
+{"level":"error","message":"500 - Operation `users.findOne()` buffering timed out after 10000ms - /api/v1/auth/login - POST - ::1","timestamp":"2026-05-22 14:00:56"}

@@ -1,0 +1,19 @@
+User:
+  type: object
+  properties:
+    _id:
+      type: string
+      example: 60d21b4667d0d8992e610c85
+    name:
+      type: string
+      example: Alex Mercer
+    email:
+      type: string
+      example: alex@travel.com
+    phone:
+      type: string
+      example: "+1234567890"
+    role:
+      type: string
+      enum: [user, superadmin]
+      example: user

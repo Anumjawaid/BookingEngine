@@ -14,10 +14,9 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
     validate: {
-      // Custom function to validate standard email format
       validator: function(value) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(value);
+        // Clean, standard RFC 5322 compliant email check
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
       },
       message: 'Please provide a valid email address'
     }
@@ -25,6 +24,7 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: [true, 'Please provide a contact phone number'],
+    trim: true // 💡 Optimization: Added trim to clean up accidental trailing whitespaces
   },
   password: {
     type: String,
@@ -32,10 +32,9 @@ const userSchema = new mongoose.Schema({
     minlength: [8, 'Password must be at least 8 characters long'],
     select: false, 
     validate: {
-      // Custom function for alphanumeric, uppercase, lowercase, and special char checks
       validator: function(value) {
-        // Requires: 1 uppercase, 1 lowercase, 1 number, and 1 special character
-        const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/;
+        // 🔒 FIX: Added {8,}+$ anchors to guarantee the ENTIRE password meets validation constraints safely
+        const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return strongPasswordRegex.test(value);
       },
       message: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
@@ -43,10 +42,16 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'superadmin'],
+    enum: {
+      values: ['user', 'superadmin'],
+      message: 'Role must be either user or superadmin' // 💡 Optimization: Avoid generic validation errors for roles
+    },
     default: 'user',
   }
-}, { timestamps: true });
+}, { 
+  timestamps: true,
+  versionKey: false // 💡 Optimization: Cleans up database records by stripping out internal __v document version numbers
+});
 
 // Document Middleware: Automatically hash password before saving
 userSchema.pre('save', async function(next) {

@@ -1,0 +1,141 @@
+/auth/register:
+  post:
+    tags:
+      - Authentication
+    summary: Register a new standard user
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+              - email
+              - phone
+              - password
+            properties:
+              name:
+                type: string
+                example: Alex Mercer
+              email:
+                type: string
+                example: alex@travel.com
+              phone:
+                type: string
+                example: "+1234567890"
+              password:
+                type: string
+                example: SuperSecret123!
+    responses:
+      '201':
+        description: User account successfully created.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: success
+                token:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                data:
+                  type: object
+                  properties:
+                    user:
+                      $ref: '#/components/schemas/User'
+      '400':
+        description: Bad request / Input validation error.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+
+/auth/login:
+  post:
+    tags:
+      - Authentication
+    summary: Log in an existing user
+    description: Authenticates a user via email and password, returning a valid JWT token.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+                example: alex@travel.com
+              password:
+                type: string
+                example: SuperSecret123!
+    responses:
+      '200':
+        description: Authentication successful. Returns a fresh security token.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: success
+                token:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                data:
+                  type: object
+                  properties:
+                    user:
+                      $ref: '#/components/schemas/User'
+      '401':
+        description: Unauthorized / Incorrect credentials.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+
+/auth/forgot-password:
+  post:
+    tags:
+      - Authentication
+    summary: Request a password reset token
+    description: Sends a one-time, temporary reset link to the user's registered email address.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - email
+            properties:
+              email:
+                type: string
+                example: alex@travel.com
+    responses:
+      '200':
+        description: Reset link successfully dispatched to the user's inbox.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: success
+                message:
+                  type: string
+                  example: Password reset token has been sent to your email address.
+      '404':
+        description: No active user found with that email address.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
