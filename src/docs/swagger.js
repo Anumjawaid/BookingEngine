@@ -33,6 +33,9 @@ try {
   // Load Paths
   const authPaths = YAML.load(path.join(__dirname, 'paths/auth.yaml'));
   baseConfig.paths = { ...baseConfig.paths, ...authPaths };
+  // Load Rates Paths
+const ratePaths = YAML.load(path.join(__dirname, 'paths/rates.yaml'));
+baseConfig.paths = { ...baseConfig.paths, ...ratePaths };
 
   // Load Schemas
   const userSchema = YAML.load(path.join(__dirname, 'schemas/user.yaml'));

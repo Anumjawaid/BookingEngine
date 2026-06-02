@@ -1,0 +1,51 @@
+/rates/upload-matrix:
+  post:
+    tags:
+      - Rates Engine
+    summary: Bulk upload inter-city rate matrices via CSV
+    description: Stream-pipes a CSV file containing city-to-city travel pricing maps straight into Firebase and parses it into MongoDB.
+    requestBody:
+      required: true
+      content:
+        multipart/form-data:
+          schema:
+            type: object
+            required:
+              - file
+            properties:
+              file:
+                type: string
+                format: binary
+                description: The CSV file payload asset containing rate data.
+    responses:
+      '200':
+        description: Bulk rate sheet parsed and inserted cleanly.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: success
+                message:
+                  type: string
+                  example: Global inter-city travel rates matrix populated successfully.
+                data:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    insertedCount:
+                      type: number
+                      example: 142
+                    cloudStoragePath:
+                      type: string
+                      example: rate-matrices/1715632145-rates.csv
+      '400':
+        description: Structural layout mismatch or invalid file type.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'

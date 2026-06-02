@@ -49,3 +49,12 @@ Memory-efficient stream processing module designed to bulk-import massive travel
 - **Context:** Evaluated Signed URLs vs. Backend Pass-Through Streaming for bulk updates.
 - **Decision:** Retained Backend-Gated Streaming for parsing operations; reserved Signed URLs for future static file hosting (e.g., Driver Licenses, Invoices).
 - **Rationale:** Signed URLs introduce an inefficient double-download loop for files that require active data extraction, while increasing cloud cleanup complexity.
+
+## 🛠️ Module 3: Dynamic Travel Pricing Calculation Matrix Engine (100% COMPLETE)
+Highly predictive financial calculations module isolating algorithmic business rules away from presentation routing protocols.
+
+### 📁 Deployed Analytical Files
+* `src/services/pricingService.js` - Central algorithmic matrix runner processing system surge pricing rules.
+* `src/controllers/pricingController.js` - Captures runtime parameters and routes them to our mathematical calculation engine.
+* `src/routes/pricingRoutes.js` - Endpoint array exposing estimate request paths to client integrations.
+* `src/docs/paths/rates.yaml` - Complete template contract specifying multi-part CSV uploads.
