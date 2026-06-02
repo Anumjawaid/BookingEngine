@@ -33,6 +33,7 @@ app.get('/api/v1/health', (req, res) => res.status(200).json({ status: 'healthy'
 
 // Feature Modules Mounting
 app.use('/api/v1/auth', require('./routes/authRoutes'));
+app.use('/api/v1/rates', require('./routes/rateRoutes')); // <-- Mount Rate Matrix here!
 // 5. Central Safety Net (Error Handler)
 app.use(errorHandler);
 module.exports = app;
