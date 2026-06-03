@@ -55,10 +55,10 @@ const userSchema = new mongoose.Schema({
 
 // Document Middleware: Automatically hash password before saving
 userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
+  if (!this.isModified('password')) return ;
 
   this.password = await bcrypt.hash(this.password, 12);
-  next();
+  
 });
 
 // Instance Method: Helper to check if a password matches

@@ -36,6 +36,13 @@ try {
   // Load Rates Paths
 const ratePaths = YAML.load(path.join(__dirname, 'paths/rates.yaml'));
 baseConfig.paths = { ...baseConfig.paths, ...ratePaths };
+  // Load Rides Paths
+const ridePaths = YAML.load(path.join(__dirname, 'paths/rides.yaml'));
+baseConfig.paths = { ...baseConfig.paths, ...ridePaths };
+
+// Load Booking Paths
+const bookingPaths = YAML.load(path.join(__dirname, 'paths/bookings.yaml'));
+baseConfig.paths = { ...baseConfig.paths, ...bookingPaths };
 
   // Load Schemas
   const userSchema = YAML.load(path.join(__dirname, 'schemas/user.yaml'));

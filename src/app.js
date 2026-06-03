@@ -11,6 +11,7 @@ const swaggerSpec = require('./docs/swagger');
 
 const app = express();
 
+const connectDB = require('./config/db');
 
 
 // 2. Global Security & Utility Middlewares
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // 3. Serve the Visual Documentation to the Browser
 // Mount UI dashboard to the browser endpoint
+connectDB()
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // 4. Core System Routes
