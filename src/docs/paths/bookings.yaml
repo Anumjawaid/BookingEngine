@@ -1,0 +1,67 @@
+# Append this descriptor block to the description tags of your existing actions
+/bookings/request:
+  post:
+    description: Initial step. Places booking into 'Awaiting_Invoice' status. Automatically generates background execution loops dispatching confirmation mailers to BOTH client inbox targets and the administrator's email matrix simultaneously.
+/bookings/send-invoice:
+  post:
+    description: Link generated invoice to a booking. Transitions state tracking maps to 'Invoiced' and dispatches a notification containing secure layout payment gateway links straight to the user's electronic mailbox.
+
+    /bookings/request:
+  post:
+    tags:
+      - Controlled Booking Engine
+    summary: Drop a fresh travel booking request into the system queue
+    description: Initial step. Places booking into 'Awaiting_Invoice' status. Drivers remain completely unnotified.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [customerId, origin, destination, fare]
+            properties:
+              customerId: { type: string, example: 60d21b4667d0d8992e610c85 }
+              origin: { type: string, example: New York City }
+              destination: { type: string, example: Boston }
+              fare: { type: number, example: 124.50 }
+    responses:
+      '201':
+        description: Request logged into admin tracking systems safely.
+
+/bookings/send-invoice:
+  post:
+    tags:
+      - Controlled Booking Engine
+    summary: Link generated invoice to a booking (Admin Action)
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [bookingId, invoiceUrl]
+            properties:
+              bookingId: { type: string, example: 60d21b5767d0d8992e610c99 }
+              invoiceUrl: { type: string, example: "https://storage.com/inv-982.pdf" }
+    responses:
+      '200':
+        description: Invoice attached and customer notified via real-time socket link.
+
+/bookings/dispatch:
+  post:
+    tags:
+      - Controlled Booking Engine
+    summary: Release a paid trip request to the driver fleet (Admin Action)
+    description: Hard-gated rule. Fails with a 400 error if status is not 'Payment_Confirmed'.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required: [bookingId]
+            properties:
+              bookingId: { type: string, example: 60d21b5767d0d8992e610c99 }
+    responses:
+      '200':
+        description: Security gate cleared. Trip broadcasted across driver sockets natively.

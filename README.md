@@ -58,3 +58,11 @@ Highly predictive financial calculations module isolating algorithmic business r
 * `src/controllers/pricingController.js` - Captures runtime parameters and routes them to our mathematical calculation engine.
 * `src/routes/pricingRoutes.js` - Endpoint array exposing estimate request paths to client integrations.
 * `src/docs/paths/rates.yaml` - Complete template contract specifying multi-part CSV uploads.
+
+## 🛠️ Module 4: Enterprise Gated Booking Engine (100% REFACTORED)
+Robust step-by-step transaction manager keeping operational driver systems decoupled from requests until complete invoice settlement occurs.
+
+### 📁 Deployed State-Machine Components
+* `src/models/bookingModel.js` - Expanded schema with dedicated fields tracking invoice attachments, transaction identifiers, and financial timestamp records.
+* `src/controllers/bookingController.js` - Four-tiered execution pipeline enforcing strict status transitions: `Request` ➔ `Invoice` ➔ `Payment` ➔ `Fleet Dispatch`.
+* `src/docs/paths/bookings.yaml` - Complete architectural API blueprint reflecting secure gated endpoints.
