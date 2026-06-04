@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  travel-engine:
+    build: .
+    container_name: travel_booking_api
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    # 🚀 THE MAGIC LINE: This forces the container to bypass your local DNS
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - NODE_ENV=development
