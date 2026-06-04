@@ -24,3 +24,4 @@ exports.login = catchAsync(async (req, res, next) => {
     data: { user: result.user }
   });
 });
+
